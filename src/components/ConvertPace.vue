@@ -2,9 +2,9 @@
   <v-card class="mx-auto">
     <v-card-text>
       <v-row>
-        <v-text-field label="pace/mile" v-model="paceMile" :rules="inputRules" />
+        <v-text-field label="pace/mile" v-model="paceMile" :rules="inputRules" type="number"/>
         <v-chip class="ma-2" label>&lt;-&gt;</v-chip>
-        <v-text-field label="pace/km" :value="convertMile2Km" :rules="inputRules" />
+        <v-text-field label="pace/km" :value="convertMile2Km" :rules="inputRules" type="number"/>
       </v-row>
     </v-card-text>
   </v-card>
