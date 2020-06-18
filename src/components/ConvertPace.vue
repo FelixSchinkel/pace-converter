@@ -18,6 +18,13 @@
           @focus="setConvertionDirection(false)"
         />
       </v-row>
+      <v-row>
+        <v-chip class="ma-2" label>1k: {{pace2string(paceKmInSeconds, true)}}</v-chip>
+        <v-chip class="ma-2" label>5k: {{pace2string(paceKmInSeconds*5, true)}}</v-chip>
+        <v-chip class="ma-2" label>10k: {{pace2string(paceKmInSeconds*10, true)}}</v-chip>
+        <v-chip class="ma-2" label>Half Marathon: {{pace2string(paceKmInSeconds*21.1, true)}}</v-chip>
+        <v-chip class="ma-2" label>Marathon: {{pace2string(paceKmInSeconds*42.2, true)}}</v-chip>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -31,8 +38,8 @@ export default {
     convDirMiles2Km: true,
     paceMile: "",
     paceKm: "",
+    paceKmInSeconds: "",
     inputRules: [
-      value => !!value || "Required.",
       value => {
         return pattern.test(value) || "Invalid Time Format use M.SS";
       }
@@ -65,18 +72,47 @@ export default {
       let split = pace.split(/[.,]/);
       let pacePerUnitInSecondes = parseInt(split[0]) * 60 + parseInt(split[1]); // Unit = km or mile depending an convDirMiles2Km
 
+      const CONSTANT_MILES_2_KM = 0.62137119223733;
       let converter =
-        this.convDirMiles2Km === true ? 0.62137119223733 : 1 / 0.62137119223733;
+        this.convDirMiles2Km === true
+          ? CONSTANT_MILES_2_KM
+          : 1 / CONSTANT_MILES_2_KM;
 
-      let pacePerUnitInSeconds = pacePerUnitInSecondes * converter;
+      //convert and round round to next int
+      let convertedPacePerUnitInSeconds = Math.round(
+        pacePerUnitInSecondes * converter
+      );
 
-      // create human readable string format: M.SS
-      let convertedPace =
-        Math.floor(pacePerUnitInSeconds / 60) +
-        "." +
-        (pacePerUnitInSeconds % 60).toFixed(0);
+      //store pace per km in seconds
+      if (this.convDirMiles2Km)
+        this.paceKmInSeconds = convertedPacePerUnitInSeconds;
+      else this.paceKmInSeconds = pacePerUnitInSecondes;
 
-      return convertedPace;
+      return this.pace2string(convertedPacePerUnitInSeconds);
+    },
+
+    // create human readable string format: M.SS
+    pace2string: function(paceInSeconds, displayTimeUnits = false) {
+      if (!paceInSeconds) return "";
+
+      // round in case paceInSeconds gets multiplied by double number (e.g. 42.2 for marathon distance)
+      paceInSeconds = Math.round(paceInSeconds)
+
+      let minutes = Math.floor(paceInSeconds / 60);
+      let seconds = paceInSeconds - minutes * 60;
+      // if seconds < 10 add leading 0
+      if (seconds < 10) seconds = "0" + seconds;
+
+      let paceAsString = minutes + "." + seconds;
+      // if displayTimeUnits set return string with hours and minutes
+      if (displayTimeUnits) {
+        if (minutes >= 60) {
+          var hours = Math.floor(paceInSeconds / 60 / 60);
+          paceAsString = hours + "h" + minutes % 60 + "m" + seconds + "s";
+        }
+      }
+
+      return paceAsString;
     }
   }
 };
