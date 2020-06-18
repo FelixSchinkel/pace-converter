@@ -52,15 +52,28 @@ export default {
     paceMile: function() {
       if (this.convDirMiles2Km) {
         this.paceKm = this.convertPace();
+        this.paceMile = this.addFullStopToInputString(this.paceMile);
       }
     },
     paceKm: function() {
       if (!this.convDirMiles2Km) {
         this.paceMile = this.convertPace();
+        this.paceKm = this.addFullStopToInputString(this.paceKm);
       }
     }
   },
   methods: {
+    //when typing 3 numbers back to back => add "," automatically after first number
+    addFullStopToInputString: function(inputString) {
+      if (
+        inputString.length === 3 &&
+        !isNaN(inputString) &&
+        !inputString.includes(".")
+      ) {
+        return inputString.slice(0, 1) + "." + inputString.slice(1);
+      }
+      return inputString;
+    },
     // set convertion direction base on selected input (either mile 2 km or km 2 mile)
     setConvertionDirection: function(dir) {
       this.convDirMiles2Km = dir;
@@ -98,7 +111,7 @@ export default {
       if (!paceInSeconds) return "";
 
       // round in case paceInSeconds gets multiplied by double number (e.g. 42.2 for marathon distance)
-      paceInSeconds = Math.round(paceInSeconds)
+      paceInSeconds = Math.round(paceInSeconds);
 
       let minutes = Math.floor(paceInSeconds / 60);
       let seconds = paceInSeconds - minutes * 60;
@@ -111,7 +124,7 @@ export default {
         if (minutes >= 60) {
           var hours = Math.floor(paceInSeconds / 60 / 60);
           paceAsString = hours + "h" + (minutes % 60) + "m" + seconds + "s";
-        }
+        } else paceAsString += " min";
       }
 
       return paceAsString;
