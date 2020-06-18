@@ -9,18 +9,23 @@
       <v-container>
         <ConvertPace />
       </v-container>
+      <v-container>
+        <Intervall2Pace />
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import ConvertPace from "./components/ConvertPace";
+import Intervall2Pace from "./components/Intervall2Pace"
 
 export default {
   name: "App",
 
   components: {
-    ConvertPace
+    ConvertPace,
+    Intervall2Pace
   },
 
   data: () => ({
