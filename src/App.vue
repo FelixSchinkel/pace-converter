@@ -5,9 +5,11 @@
       <v-icon>mdi-open-in-new</v-icon>
     </v-app-bar>
 
-    <v-content>
-      <ConvertPace />
-    </v-content>
+    <v-main>
+      <v-container>
+        <ConvertPace />
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 

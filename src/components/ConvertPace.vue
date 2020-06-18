@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto">
+  <v-card>
     <v-card-text>
       <v-row>
         <v-text-field
@@ -9,7 +9,7 @@
           type="number"
           @focus="setConvertionDirection(true)"
         />
-        <v-chip class="ma-2" label>&lt;-&gt;</v-chip>
+        <v-icon large>mdi-compare-horizontal</v-icon>
         <v-text-field
           label="pace/km"
           v-model="paceKm"
