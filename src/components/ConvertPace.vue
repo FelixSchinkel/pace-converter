@@ -1,8 +1,11 @@
 <template>
   <v-card>
+    <v-card-title>Pace converter</v-card-title>
+    <v-card-subtitle>Just type your mile or km pace into the form and let the magic happen</v-card-subtitle>
     <v-card-text>
       <v-row>
         <v-text-field
+          class="mx-4"
           label="pace/mile"
           v-model="paceMile"
           :rules="inputRules"
@@ -12,6 +15,7 @@
         />
         <v-icon large>mdi-compare-horizontal</v-icon>
         <v-text-field
+          class="mx-4"
           label="pace/km"
           v-model="paceKm"
           :rules="inputRules"
@@ -20,7 +24,7 @@
           @focus="setConvertionDirection(false)"
         />
       </v-row>
-      <v-row>
+      <v-row class="mx-0">
         <v-chip class="ma-2" label>1k: {{pace2string(paceKmInSeconds, true)}}</v-chip>
         <v-chip class="ma-2" label>5k: {{pace2string(paceKmInSeconds*5, true)}}</v-chip>
         <v-chip class="ma-2" label>10k: {{pace2string(paceKmInSeconds*10, true)}}</v-chip>
@@ -132,6 +136,5 @@ export default {
   }
 };
 </script>
-
 <style>
 </style>

@@ -1,22 +1,22 @@
 <template>
   <v-card>
-    <v-card-title >Intervall Pace</v-card-title>
+    <v-card-title>Intervall Pace</v-card-title>
     <v-card-subtitle>Define Intervall distance + time -> get Pace per km</v-card-subtitle>
     <v-card-text>
       <v-row>
-        <v-text-field label="Distance" v-model="distance" />
+        <v-text-field label="distance" v-model="distance" class="mx-4" />
         <v-radio-group v-model="distanceUnit" row>
           <v-radio label="m" value="m"></v-radio>
           <v-radio label="km" value="km"></v-radio>
         </v-radio-group>
         <v-icon>mdi-plus</v-icon>
-        <v-text-field label="Time" v-model="time" />
+        <v-text-field label="time" v-model="time" class="mx-4"/>
         <v-radio-group v-model="timeUnit" row>
           <v-radio label="seconds" value="s"></v-radio>
           <v-radio label="minutes + seconds" value="ms"></v-radio>
         </v-radio-group>
         <v-icon>mdi-equal</v-icon>
-        <v-text-field label="Pace" v-model="pace" readonly />
+        <v-text-field label="pace/km" v-model="pace" readonly class="mx-4"/>
       </v-row>
     </v-card-text>
   </v-card>
@@ -27,9 +27,9 @@ const pattern = /^([0-9][.][0-5][0-9])$/;
 
 export default {
   data: () => ({
-    distance: 1000,
+    distance: "",
     distanceUnit: "m",
-    time: 300,
+    time: "",
     timeUnit: "s"
   }),
   computed: {
