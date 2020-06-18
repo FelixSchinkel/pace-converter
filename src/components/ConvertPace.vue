@@ -6,7 +6,8 @@
           label="pace/mile"
           v-model="paceMile"
           :rules="inputRules"
-          type="number"
+          type="tel"
+          maxlength="4"
           @focus="setConvertionDirection(true)"
         />
         <v-icon large>mdi-compare-horizontal</v-icon>
@@ -14,7 +15,8 @@
           label="pace/km"
           v-model="paceKm"
           :rules="inputRules"
-          type="number"
+          type="tel"
+          maxlength="4"
           @focus="setConvertionDirection(false)"
         />
       </v-row>
@@ -108,7 +110,7 @@ export default {
       if (displayTimeUnits) {
         if (minutes >= 60) {
           var hours = Math.floor(paceInSeconds / 60 / 60);
-          paceAsString = hours + "h" + minutes % 60 + "m" + seconds + "s";
+          paceAsString = hours + "h" + (minutes % 60) + "m" + seconds + "s";
         }
       }
 
