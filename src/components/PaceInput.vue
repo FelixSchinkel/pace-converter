@@ -6,6 +6,7 @@
       :rules="inputRules"
       type="tel"
       maxlength="4"
+      clearable
       @focus="$emit('focus', $event)"
     />
 </template>

@@ -16,7 +16,7 @@
           @focus="setConvertionDirection(false)"
         />
       </v-row>
-      <v-row class="mx-0">
+      <v-row class="mx-0" v-if="paceKmInSeconds">
         <v-chip class="ma-2" label>1k: {{pace2string(paceKmInSeconds, true)}}</v-chip>
         <v-chip class="ma-2" label>5k: {{pace2string(paceKmInSeconds*5, true)}}</v-chip>
         <v-chip class="ma-2" label>10k: {{pace2string(paceKmInSeconds*10, true)}}</v-chip>
