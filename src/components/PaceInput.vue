@@ -1,5 +1,4 @@
 <template>
-  <div>
     <v-text-field
       class="mx-4"
       :label="label"
@@ -9,7 +8,6 @@
       maxlength="4"
       @focus="$emit('focus', $event)"
     />
-  </div>
 </template>
 
 <script>
