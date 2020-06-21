@@ -4,23 +4,15 @@
     <v-card-subtitle>Just type your mile or km pace into the form and let the magic happen</v-card-subtitle>
     <v-card-text>
       <v-row>
-        <v-text-field
-          class="mx-4"
-          label="pace/mile"
+        <PaceInput
           v-model="paceMile"
-          :rules="inputRules"
-          type="tel"
-          maxlength="4"
+          label="pace/mile"
           @focus="setConvertionDirection(true)"
         />
         <v-icon large>mdi-compare-horizontal</v-icon>
-        <v-text-field
-          class="mx-4"
-          label="pace/km"
+        <PaceInput
           v-model="paceKm"
-          :rules="inputRules"
-          type="tel"
-          maxlength="4"
+          label="pace/km"
           @focus="setConvertionDirection(false)"
         />
       </v-row>
@@ -36,11 +28,17 @@
 </template>
 
 <script>
+import PaceInput from "./PaceInput"
+
 // regex checks if time format is: M.SS
 const pattern = /^([0-9][.,][0-5][0-9])$/;
 
 export default {
+  components: {
+    PaceInput
+  },
   data: () => ({
+    // set convetion direction if set to false direction is Km 2 miles
     convDirMiles2Km: true,
     paceMile: "",
     paceKm: "",
@@ -56,30 +54,18 @@ export default {
     paceMile: function() {
       if (this.convDirMiles2Km) {
         this.paceKm = this.convertPace();
-        this.paceMile = this.addFullStopToInputString(this.paceMile);
       }
     },
     paceKm: function() {
       if (!this.convDirMiles2Km) {
         this.paceMile = this.convertPace();
-        this.paceKm = this.addFullStopToInputString(this.paceKm);
       }
     }
   },
   methods: {
-    //when typing 3 numbers back to back => add "," automatically after first number
-    addFullStopToInputString: function(inputString) {
-      if (
-        inputString.length === 3 &&
-        !isNaN(inputString) &&
-        !inputString.includes(".")
-      ) {
-        return inputString.slice(0, 1) + "." + inputString.slice(1);
-      }
-      return inputString;
-    },
     // set convertion direction base on selected input (either mile 2 km or km 2 mile)
     setConvertionDirection: function(dir) {
+      console.debug("set conversion direction:", dir);
       this.convDirMiles2Km = dir;
     },
     // convert pace mile to km or other way arround if input is valid
@@ -88,6 +74,7 @@ export default {
       let pace = this.convDirMiles2Km === true ? this.paceMile : this.paceKm;
       if (!pattern.test(pace)) return "";
 
+      console.debug("convert pace", pace)
       let split = pace.split(/[.,]/);
       let pacePerUnitInSecondes = parseInt(split[0]) * 60 + parseInt(split[1]); // Unit = km or mile depending an convDirMiles2Km
 
@@ -107,7 +94,9 @@ export default {
         this.paceKmInSeconds = convertedPacePerUnitInSeconds;
       else this.paceKmInSeconds = pacePerUnitInSecondes;
 
-      return this.pace2string(convertedPacePerUnitInSeconds);
+      let paceAsString = this.pace2string(convertedPacePerUnitInSeconds);
+      console.debug("converted pace:", paceAsString)
+      return paceAsString
     },
 
     // create human readable string format: M.SS
