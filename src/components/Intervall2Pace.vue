@@ -4,7 +4,7 @@
     <v-card-subtitle>Define Intervall distance + time -> get Pace per km</v-card-subtitle>
     <v-card-text>
       <v-row>
-        <v-text-field label="distance" v-model="distance" class="mx-4" />
+        <v-text-field label="distance" v-model="distance" class="mx-4" type="tel"/>
         <v-radio-group v-model="distanceUnit" row>
           <v-radio label="m" value="m"></v-radio>
           <v-radio label="km" value="km"></v-radio>
