@@ -1,24 +1,5 @@
-# pace-converter
+# Running Pace Converter
 
-## Project setup
-```
-npm install
-```
+Convert your pace from imperial to metric or vice versa
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[Explore converter](https://felixschinkel.github.io/pace-converter/)
