@@ -1,5 +1,5 @@
 <template>
-  <v-btn text color="primary" @click="clickToggle">{{toggleItems}}</v-btn>
+  <v-btn text color="primary" @click="nextItem">{{selectedItem}}</v-btn>
 </template>
 
 <script>
@@ -9,19 +9,24 @@ export default {
     value: String
   },
   data: () => ({
-    toggle: true
+    // per default show first item in 'items'
+    displayedItemIndex: 0
   }),
   computed: {
-    toggleItems: function() {
-      let val = "";
-      this.toggle ? (val = this.items[0]) : val = this.items[1];
-      this.$emit("input", val);
-      return val;
+    selectedItem: function() {
+      this.$emit("input", this.items[this.displayedItemIndex]);
+      return this.items[this.displayedItemIndex];
     }
   },
   methods: {
-    clickToggle: function() {
-      this.toggle = !this.toggle;
+    nextItem: function() {
+      // on each klick: cycle throug possible items
+      console.log(this.displayedItemIndex, this.items.length);
+      if (this.displayedItemIndex >= this.items.length - 1) {
+        this.displayedItemIndex = 0;
+      } else {
+        this.displayedItemIndex++;
+      }
     }
   }
 };

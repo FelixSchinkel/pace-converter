@@ -33,21 +33,37 @@ export default {
   data: () => ({
     distance: "",
     distanceUnit: "m",
-    distanceUnitOptions: ["m", "km"],
+    distanceUnitOptions: ["m", "km", "mi"], //TODO use enum
 
     time: "",
     timeUnit: "ms",
-    timeUnitOptions: ["seconds", "minutes + seconds"]
+    timeUnitOptions: ["seconds", "minutes + seconds"] //TODO use enum
   }),
   computed: {
     pace: function() {
       if (!this.distance && !this.time) return;
-      if (this.timeUnit === "ms" && !pattern.test(this.time)) return;
-      // convert distance to meters and time to seconds
+      if (this.timeUnit === "minutes + seconds" && !pattern.test(this.time))
+        return;
 
+      // convert distance to meters and time to seconds
       let dist;
-      if (this.distanceUnit === "km") dist = this.distance * 1000;
-      else dist = this.distance;
+      switch (this.distanceUnit) {
+        case "km": {
+          dist = this.distance * 1000;
+          break;
+        }
+        case "m": {
+          dist = this.distance;
+          break;
+        }
+        case "mi": {
+          dist = this.distance * 1609.344;
+          break;
+        }
+        default: {
+          console.error("cant convert intervall distance!");
+        }
+      }
 
       let seconds;
       //if input in minutes -> convert to seconds
@@ -55,17 +71,16 @@ export default {
         let timeSplit;
         if (this.time.includes(".")) {
           timeSplit = this.time.split(".");
-          // if input like '3.' add '0 ' to fix conversation to seconds   
+          // if input like '3.' add '0 ' to fix conversation to seconds
           if (timeSplit[1].length === 0) timeSplit[1] = "0";
           console.log("timepslit", timeSplit);
         } else {
           timeSplit = [this.time, 0];
         }
-
         seconds = parseInt(timeSplit[0] * 60) + parseInt(timeSplit[1]);
       } else seconds = this.time;
 
-      // calc pace - floor to int
+      // calc pace using rule of three 
       let pace = Math.floor((1000 * seconds) / dist);
 
       return (
