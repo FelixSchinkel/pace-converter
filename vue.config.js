@@ -5,5 +5,9 @@ module.exports = {
   /* github pages deployment path */
   publicPath: process.env.NODE_ENV === 'production'
   ? '/pace-converter/'
-  : '/'
+  : '/',
+  
+  configureWebpack: {
+    devtool: 'source-map'
+  }
 }
