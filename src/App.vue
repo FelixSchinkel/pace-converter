@@ -1,10 +1,11 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <span class="mr-2">Convert Stuff</span>
-      <v-icon>mdi-open-in-new</v-icon>
-      <v-spacer/>
-      <v-switch v-model="$vuetify.theme.dark" hide-details inset label="Dark Mode" />
+      <v-toolbar-title class="mx-auto">The Converter</v-toolbar-title>
+      <v-btn icon @click="toogleDarkTheme">
+        <v-icon v-if="$vuetify.theme.dark">mdi-brightness-7</v-icon>
+        <v-icon v-else>mdi-brightness-4</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -27,11 +28,12 @@ export default {
 
   components: {
     ConvertPace,
-    Intervall2Pace
+    Intervall2Pace,
   },
-
-  data: () => ({
-    //
-  })
+  methods: {
+    toogleDarkTheme: function () {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
+  },
 };
 </script>
