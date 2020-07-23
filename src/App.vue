@@ -30,9 +30,16 @@ export default {
     ConvertPace,
     Intervall2Pace,
   },
+  mounted: function () {
+    let darkMode = localStorage.getItem("darkMode");
+    if (darkMode) {
+      this.$vuetify.theme.dark = darkMode.toLowerCase() === 'true'; // convert string to boolean
+    }
+  },
   methods: {
     toogleDarkTheme: function () {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      localStorage.setItem("darkMode", this.$vuetify.theme.dark);
     },
   },
 };
