@@ -31,9 +31,19 @@ export default {
     Intervall2Pace,
   },
   mounted: function () {
-    let darkMode = localStorage.getItem("darkMode");
+    // check if dark mode should be applied -  based on media query or local storage
+    // media query darkMode is always prefered over localStorage
+    let darkModeLocalStorage =
+      localStorage.getItem("darkMode").toLowerCase() === 'true'
+
+    let darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
     if (darkMode) {
-      this.$vuetify.theme.dark = darkMode.toLowerCase() === 'true'; // convert string to boolean
+      console.log("based on media query -> colorscheme = dark ");
+      this.$vuetify.theme.dark = darkMode
+      localStorage.setItem("darkMode", this.$vuetify.theme.dark);
+    }
+    else if(darkModeLocalStorage){
+      this.$vuetify.theme.dark = darkModeLocalStorage
     }
   },
   methods: {
