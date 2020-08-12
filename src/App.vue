@@ -31,26 +31,24 @@ export default {
     Intervall2Pace,
   },
   mounted: function () {
-    // check if dark mode should be applied -  based on media query or local storage
-    // media query darkMode is always prefered over localStorage
-    let darkModeLocalStorage =
-      localStorage.getItem("darkMode").toLowerCase() === 'true'
-
-    let darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-    if (darkMode) {
+    // check if dark mode should be applied -  based on media query 
+    let darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)").matches
+    if (darkModeMediaQuery) {
       console.log("based on media query -> colorscheme = dark ");
-      this.$vuetify.theme.dark = darkMode
-      localStorage.setItem("darkMode", this.$vuetify.theme.dark);
+      this.setColorScheme(darkModeMediaQuery);
     }
-    else if(darkModeLocalStorage){
-      this.$vuetify.theme.dark = darkModeLocalStorage
-    }
+    // add listender to watch media query change
+    window.matchMedia("(prefers-color-scheme: dark)").addListener(({matches}) => this.setColorScheme(matches))
   },
   methods: {
     toogleDarkTheme: function () {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-      localStorage.setItem("darkMode", this.$vuetify.theme.dark);
+      this.setColorScheme(!this.$vuetify.theme.dark);
     },
+    setColorScheme: function(schemeDark){
+      console.log("media query listener: set color scheme to dark: ", schemeDark);
+      this.$vuetify.theme.dark = schemeDark;
+      localStorage.setItem("darkMode", this.$vuetify.theme.dark);
+    }
   },
 };
 </script>
