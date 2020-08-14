@@ -15,7 +15,7 @@
 import { ref, watchEffect, watch } from "@vue/composition-api";
 
 // regex checks if time format is: M.SS
-const pattern = /^([0-9][.,][0-5][0-9])$/;
+const pattern = /^$|^([0-9][.,][0-5][0-9])/;
 
 export default {
   props: {
@@ -25,7 +25,7 @@ export default {
   setup(props, context) {
     const inputRules = [
       value => {
-        return pattern.test(value) || "Invalid Time Format use M.SS";
+        return pattern.test(value) || "Invalid Time Format use Minute.Seconds";
       }
     ];
     // input data
